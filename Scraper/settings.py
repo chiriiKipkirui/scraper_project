@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'awhsr8_j$7b^&r2s+w7d@%!0s5*_x5u3p7z-*4qm@7&(#y(=8w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['https://kenyanscraperapp.herokuapp.com']
 
