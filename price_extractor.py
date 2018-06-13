@@ -12,7 +12,7 @@ ids = []
 names_test = []
 
 try:
-    conn = psycopg2.connect(database='sdd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+    conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
     cur = conn.cursor()
     cur.execute('select id,prod_name from kenyan_stores_scraper_products')
     products_list= cur.fetchall()

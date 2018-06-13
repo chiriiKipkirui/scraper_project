@@ -68,7 +68,7 @@ WSGI_APPLICATION = 'Scraper.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sdd3k5k07r0pec2',
+        'NAME': 'dd3k5k07r0pec2',
         'USER': 'skbfthymdatfrb',
         'PASSWORD': '7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10',
         'HOST': 'ec2-54-204-2-26.compute-1.amazonaws.com',

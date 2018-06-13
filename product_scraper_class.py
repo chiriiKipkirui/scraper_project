@@ -64,7 +64,7 @@ class Scraper(object):
 					discount=0
 					print(price)
 				try:
-					conn = psycopg2.connect(database='sdd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+					conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
 					cur = conn.cursor()
 					if price_avechi ==0 or price_avechi==None:
 						pass
@@ -106,7 +106,7 @@ class Scraper(object):
 
 
 				try:
-					conn = psycopg2.connect(database='sdd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+					conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
 					cur = conn.cursor()
 					if price_jumia ==0 or price_jumia ==None:
 						pass
@@ -152,7 +152,7 @@ class Scraper(object):
 					discount=0
 					
 				try:
-					conn = psycopg2.connect(database='sdd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+					conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
 					cur = conn.cursor()
 					if price_killmall==0 or price_killmall==None:
 						pass
