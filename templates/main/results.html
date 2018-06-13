@@ -1,0 +1,137 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Details for {{prod.product_name}}</title>
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<div class="headers">
+	<h3  >Shopping Assistant</h3>
+	
+	<div class="home_btn">	<a   href="{% url  'kenyan_stores_scraper:pdf'  %}" class="btns">Pdf</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a   href="{% url 'kenyan_stores_scraper:home'%}" class="btns">Home</a>
+	</div>
+		<br><br>
+	</div>
+	
+
+	<h5 class="text-center" style="font-weight: bold">Details for product {{product.product_name}}</h5><hr>
+	<div class="container-fluid">
+		
+		<div class="row">
+			<div class="col-md-4 col-sm-12" id="jumia">
+				<h5 class="text-center">Details at Jumia</h5><hr>
+				{% if jumia_prods%}
+				<div class="jumiastats">
+					<p>Mean:<span class="mean text-info"></span></p>
+					<p>Median:<span class="median text-info"></span></p>
+					<p>Standard Deviation:<span class="std text-info"></span></p>
+				</div>
+				{% for i in jumia_prods%}
+				 <ul class="{{product.product_name}}">
+				 	<li>Price <b class="jumia-price">{{i.product_price}}</b> as at<b  class="jumia-time">{{i.timestamp}}</b></li>
+				 </ul>
+
+				{% endfor%}
+				<div class="box" style="position:relative;height: 400px;">
+        <canvas id="jumiaChart" width="200px" height="200px"></canvas>
+    </div>
+				{% else%}
+				<p>It seems we dont have the current product characteristics</p>
+				{% endif%}
+				
+			</div>
+			<div class="col-md-4 col-sm-12" id="avechi">
+				<h5 class="text-center">Details at Avechi</h5><hr>
+				{% if avechi_prods%}
+				<div class="avechistats " >
+					<p>Mean:<span class="avechi-mean text-info"></span></p>
+					<p>Median:<span class="avechi-median text-info"></span></p>
+					<p>Standard Deviation:<span class="avechi-std text-info"></span></p>
+				</div>
+				{% for i in avechi_prods%}
+				 <ul class="{{product.product_name}}">
+				 	<li>Price <b class="avechi-price">{{i.product_price}}</b> as at <b class="avechi-time">{{i.timestamp}}</b></li>
+				 </ul>
+				
+
+				{% endfor%}
+						<div class="box" style="position:relative;height: 400px;">
+        <canvas id="avechiChart" width="200px" height="200px" ></canvas>
+    </div>
+				{%else%}
+				<p>It seems we dont have the current product characteristics</p>
+				{% endif%}
+
+		
+			
+			</div>
+			<div class="col-md-4 col-sm-8" id="killmall">
+				<h5 class="text-center">Details at Killmall</h5><hr>
+				{% if killmall_prods%}
+				<div class="killmallstats ">
+					<p>Mean:<span class="killmall-mean text-info"></span></p>
+					<p>Median:<span class="killmall-median text-info"></span></p>
+					<p>Standard Deviation:<span class="killmall-std text-info"></span></p>
+				</div>
+				{% for i in killmall_prods%}
+				 <ul class="{{product.product_name}}">
+				 	<li>Price <b class="killmall-price">{{i.product_price}}</b> as at <b class="killmall-time">{{i.timestamp}}</b></li>
+				 </ul>
+				
+
+				{% endfor%}
+						<div class="box" style="position:relative;height: 400px;">
+        <canvas id="killmallChart" width="200px" height="200px" ></canvas>
+    </div>
+				
+			
+				{% else%}
+				<p>It seems we dont have the current product characteristics</p>
+				{% endif%}
+		
+		</div>
+	</div>
+
+	</div>
+	<div class="row">
+	<p class="text-info text-justify container-fluid">Study the trend of the graph to have a proper understanding of the trend in prices.The lower the linepoint on the graph the lower the price.The price varies from store to store due to various deterministic factors.We ll compute the mean,median and standard deviation for each site.</p></div>
+</body>
+<footer>
+	<hr>
+	 <div class="row">
+    <section class="col-md-4 col-sm-12 footer-left">
+    	
+        <p><br>Let's code the Universe :)
+        Happy Coding</p>
+        <p>&copy;Chirchir Softwares 2018<span class="glyphicon glyphicon-cd"></span></span></p>
+    </section>
+    <div class="col-md-4 col-sm-12" ><br><br><br>
+        <h5 style="text-align:center;">Built with <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/591px-Love_Heart_symbol.svg.png" height="27px" width="27px"> by Ezra Chirchir @chirie_ezra</h5>
+    </div>
+    <section class="col-md-4 col-sm-12 footer-right">
+    	<br>
+        <p>Connect  with me on </p>
+        <a href="https://www.facebook.com/EzraChirchir" class="fa fa-facebook-square"></a>
+        <a  href="https://twitter.com/chirie_ezra" class="fa fa-twitter"></a>
+        <a  href="https://www.youtube.com/EzraChirchir" class="fa fa-youtube"></a>
+        <a  href="#" class="fa fa-whatsapp"></a>
+        <a  href="https://www.google.com/kipkiruichirii" class="fa fa-google-plus"></a>
+
+
+    </section>
+</div>
+    
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.4.2/math.js"></script>
+ <script src="{% static 'js/plot.js'%}"></script>
+</html>

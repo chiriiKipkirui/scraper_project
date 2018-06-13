@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Content of the pdf </title>
+	{% load static %}
+</head>
+<style type="text/css">
+	*{background-color:white;
+		text-align: center;
+	
+font-size: 1.0em;
+font-family: Arial;
+
+}
+h2{
+	text-decoration: underline;
+	text-transform: capitalize;
+	color:blue;
+}
+tr{
+	font-size: 1.0em;
+}
+td{
+	font-size:1.0em;
+	padding-top: 3px;
+}
+table {
+	width: 60%;
+	border:2px solid grey;
+	color: black;
+}
+footer {
+	font-size: 1.2em;
+	color: black;
+	font-family: algerian;
+}
+</style>
+<body>
+	<h2>Shopping Assistant</h2><date style="text-align: right;color:slategrey;">{{date}}</date>
+	<h4 style="text-align: center">Details for {{product.product_name}}</h4>
+	<p>Thank you for using our web based system.Here is the pdf version of the analytics</p>
+	<table>
+		<tr><td>Jumia price Details</td>{% for prod in jumia_prods%}<td>{{prod.product_price}} as at {{prod.timestamp}} </td>{% endfor%}</tr>
+		<tr><td>Avechi price Details</td>{% for prod in avechi_prods%}<td>{{prod.product_price}} as at {{prod.timestamp}}</td>{% endfor%}</tr>
+		<tr><td>Killmall price Details</td>{% for prod in killmall_prods%}<td>{{prod.product_price}} as at {{prod.timestamp}}</td>{% endfor%}</tr>
+	</table>
+	<h5>Additional Information</h5>
+	<p>All products have a seven day return Policy from all stores</p>
+	<P>Delivery time varies also for payment details check on the proprietors sites</P>
+	<p>Warranties Vary depending on the proprietor</p>
+	
+
+
+</body><br><br>
+<footer>&copy chirii softwares 2018</footer>
+</html>
