@@ -78,7 +78,7 @@ def get_product_details(url):
 					if prod_names[i]  not in name:
 						continue
 					else:
-                                                name = name
+						name = name
 						image_holder = soup_details.find("img",{"id":"productImage"})
 						print(url)
 						if image_holder :
@@ -156,7 +156,7 @@ def get_product_details(url):
 				for li in features:
 					clean_features.append(li.encode("utf-8"))
 			try:
-				conn = psycopg2.connect(database='sdd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+				conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
 				cur = conn.cursor()
 				try:
 					pass

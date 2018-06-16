@@ -11,9 +11,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'awhsr8_j$7b^&r2s+w7d@%!0s5*_x5u3p7z-*4qm@7&(#y(=8w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://kenyanscraperapp.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -68,10 +68,10 @@ WSGI_APPLICATION = 'Scraper.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dd3k5k07r0pec2',
-        'USER': 'skbfthymdatfrb',
-        'PASSWORD': '7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10',
-        'HOST': 'ec2-54-204-2-26.compute-1.amazonaws.com',
+        'NAME': 'trial',
+        'USER': 'postgres',
+        'PASSWORD': 'ezra7477',
+        'HOST': '',
         'PORT': '5432',
     }
 }
