@@ -8,22 +8,26 @@
 	<title>Details for {{prod.product_name}}</title>
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!--local development -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!--end of local dev't -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 	<div class="headers">
 	<h3  >Shopping Assistant</h3>
-	
+
 	<div class="home_btn">	<a   href="{% url  'kenyan_stores_scraper:pdf'  %}" class="btns">Pdf</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		<a   href="{% url 'kenyan_stores_scraper:home'%}" class="btns">Home</a>
 	</div>
 		<br><br>
 	</div>
-	
+
 
 	<h5 class="text-center" style="font-weight: bold">Details for product {{product.product_name}}</h5><hr>
 	<div class="container-fluid">
-		
+
 		<div class="row">
 			<div class="col-md-4 col-sm-12" id="jumia">
 				<h5 class="text-center">Details at Jumia</h5><hr>
@@ -45,7 +49,7 @@
 				{% else%}
 				<p>It seems we dont have the current product characteristics</p>
 				{% endif%}
-				
+
 			</div>
 			<div class="col-md-4 col-sm-12" id="avechi">
 				<h5 class="text-center">Details at Avechi</h5><hr>
@@ -59,7 +63,7 @@
 				 <ul class="{{product.product_name}}">
 				 	<li>Price <b class="avechi-price">{{i.product_price}}</b> as at <b class="avechi-time">{{i.timestamp}}</b></li>
 				 </ul>
-				
+
 
 				{% endfor%}
 						<div class="box" style="position:relative;height: 400px;">
@@ -69,8 +73,8 @@
 				<p>It seems we dont have the current product characteristics</p>
 				{% endif%}
 
-		
-			
+
+
 			</div>
 			<div class="col-md-4 col-sm-8" id="killmall">
 				<h5 class="text-center">Details at Killmall</h5><hr>
@@ -84,18 +88,18 @@
 				 <ul class="{{product.product_name}}">
 				 	<li>Price <b class="killmall-price">{{i.product_price}}</b> as at <b class="killmall-time">{{i.timestamp}}</b></li>
 				 </ul>
-				
+
 
 				{% endfor%}
 						<div class="box" style="position:relative;height: 400px;">
         <canvas id="killmallChart" width="200px" height="200px" ></canvas>
     </div>
-				
-			
+
+
 				{% else%}
 				<p>It seems we dont have the current product characteristics</p>
 				{% endif%}
-		
+
 		</div>
 	</div>
 
@@ -107,7 +111,7 @@
 	<hr>
 	 <div class="row">
     <section class="col-md-4 col-sm-12 footer-left">
-    	
+
         <p><br>Let's code the Universe :)
         Happy Coding</p>
         <p>&copy;Chirchir Softwares 2018<span class="glyphicon glyphicon-cd"></span></span></p>
@@ -127,11 +131,16 @@
 
     </section>
 </div>
-    
+
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.4.2/math.js"></script>
  <script src="{% static 'js/plot.js'%}"></script>
+ <!--local development -->
+ <script src="{% static 'js/jquery.js'%}"></script>
+ <script src="{% static 'js/bootstrap.min.js'%}"></script>
+ <script src="{% static 'js/format.js'%}"></script>
+ <!--end of local dev -->
 </html>

@@ -1,0 +1,2 @@
+- check if a product is available among all websites
+

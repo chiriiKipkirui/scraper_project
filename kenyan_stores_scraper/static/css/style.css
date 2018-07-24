@@ -52,11 +52,14 @@ canvas{
 }
 #section_one,#section_one p {
     display:block;
-    text-indent: 20px;
+    text-indent: 0;
+    margin: 5px;
 }
 .headers {
    background-color:#3CBCBC;
+   min-height: 100px;0px;
 }
+
 h3{
 
     font-family:Ubuntu;
@@ -64,13 +67,14 @@ h3{
     min-height:40px;
     font-weight: bolder;
     font-size: 1.6em;
-    
+
     padding-top:10px;
    padding-bottom: 14px;
 
 }
 .product-name a {
     color:blue;
+    width: 30%;
 }
 .search_area{
     float:right;
@@ -113,7 +117,7 @@ ul li{
         float:right;
         text-decoration: none;
         margin-right: 20px;
-          
+
           margin: 0;
           width:100%;
           min-height:40px;
@@ -122,7 +126,7 @@ ul li{
     }
     .home_btn .btns{
         color:#000;
-        
+
         font-weight: bold;
         font-size:1.2em;
     }
@@ -136,14 +140,21 @@ ul li{
         color:white;
         text-decoration: none
     }
+#products_container{
+    margin-left:13px;
+}
 
 @media (max-width: 670px){
     body{
         width:100%;
     }
+    .section_two .product-name{
+        width: 50%;
+        float: left;
+    }
     h3{
         font-family: 1.0em;
-        
+
     }
     .product-image{
         display: none;
@@ -156,10 +167,10 @@ ul li{
 
     }
     .home_btn{
-        
+
         text-decoration: none;
         margin-right: 20px;
-          
+
           margin: 0;
           width:100%;
           color:#fff;
@@ -171,7 +182,7 @@ ul li{
         margin: 0;
         font-weight: bold;
     }
-  
+
     a:hover{
         background:blue;
         color:white;
@@ -193,7 +204,7 @@ ul li{
 
     /* #box{
         position:relative;
-        
+
     }
 
     canvas{
@@ -201,4 +212,3 @@ ul li{
         width:100px;
         position:absolute;
     }*/}
-   

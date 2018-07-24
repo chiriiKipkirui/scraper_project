@@ -12,8 +12,8 @@ computers_urls = ["https://www.jumia.co.ke/computers/"]
 def gen_next_url(url):
 	audio_url = "https://www.jumia.co.ke/video-audio/"
 	comp_url = "https://www.jumia.co.ke/computers/"
-	for i in range(24):
-		urls_mobiles.append(url+"?page="+str(i+2))
+	for i in range(10):
+		#urls_mobiles.append(url+"?page="+str(i+2))
 		audio_tvs_urls.append(audio_url+"?page="+str(i+2))
 		computers_urls.append(comp_url+"?page="+str(i+2))
 
@@ -52,10 +52,11 @@ def get_products(url):
 	except Exception as e:
 		print(e)
 
-for url in chain(audio_tvs_urls,computers_urls,urls_mobiles): #concatinate (computers_urls+audio_tvs_urls+
+for url in chain(audio_tvs_urls,computers_urls): #concatinate (computers_urls+audio_tvs_urls+
 	get_products(url)
 
 def get_product_details(url):
+	clean_features=[]
 	headers = {
 	        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
 	    }
@@ -72,105 +73,61 @@ def get_product_details(url):
 			name_holder = soup_details.find("h1",{"class":"title"})
 			if name_holder:
 				name = name_holder.text
-
-				for i in range(len(prod_names)):
-
-					if prod_names[i]  not in name:
-						continue
+				name = name
+				
+				image_holder = soup_details.find("img",{"id":"productImage"})
+				
+				if image_holder :
+					image = image_holder["data-src"]
+					
+				else:
+					image = ''
+					pass
+			#name holders
+				
+				#ratings container
+				ratings_holder = soup_details.find("div",{"class":"container"})
+				if ratings_holder:
+					ratings = ratings_holder.span.text
+					if ',' in ratings:
+						rating,by = ratings.split(',')
 					else:
-						name = name
-						image_holder = soup_details.find("img",{"id":"productImage"})
-						print(url)
-						if image_holder :
-							image = image_holder["data-src"]
-							print(image)
+						rating = ratings
+					prod_rating = int(rating)
+					try:
+						features_holder = soup_details.find("div",{"class":'list -features'})
+						if(features_holder):
+							feat_holder = features_holder.find(["ul","li","p","strong"])
+							for feature in feat_holder:
+								if isinstance(feature,NavigableString):
+									pass
+								else:
+
+									clean_features.append(feature.get_text())
+
+
 						else:
 							pass
-					#name holders
+					except Exception as e:
+						print(e)
+
+					try:
+						conn = psycopg2.connect(database='scraperdata',user= 'postgres',host='',password='ezra7477')
+						cur = conn.cursor()
+						cur.execute('insert into kenyan_stores_scraper_products(product_name,product_image,product_rating,product_key_features) VALUES(%s,%s,%s,%s)',(name,image,prod_rating,clean_features))
+						conn.commit()
+
+					except Exception as e:
+						print(e)
+					finally:
+						cur.close()
+						conn.close()
 						
-						#ratings container
-						ratings_holder = soup_details.find("div",{"class":"container"})
-						if ratings_holder:
-							ratings = ratings_holder.span.text
-							if ',' in ratings:
-								rating,by = ratings.split(',')
-							else:
-								rating = ratings
-							prod_rating = int(rating)
-							try:
-								features_holder = soup_details.find_all("div",{"class":'list -features'})
-								if(features_holder):
-									li_container = features_holder[0]
-									if li_container.ul:
-											for li in li_container.ul:
-												if isinstance(li,NavigableString):
-													features.append(li)
+			
+				
+			
 
-												elif li.strong:
-													features.append(li.strong.text)
-												elif li.text:
-													features.append(li.text)
-												else:
-													pass
-									elif li_container.p:
-											for li in li_container.p:
-												if li.text:
-													features.append(li.text)
-												elif isinstance(li,NavigableString):
-													features.append(li)
-												elif li.strong:
-													features.append(li.strong.text)
-												else:
-													pass
-									elif li_container.ol:
-											for li in li_container.ol:
-												if li.text:
-													features.append(li.text)
-												elif isinstance(li,NavigableString):
-													features.append(li)
-												elif li.strong:
-													features.append(li.strong.text)
-												else:
-													pass
-									elif li_container.p and li_container.ul:
-										for li in li_container.p:
-												if li.text:
-													features.append(li.text)
-												elif isinstance(li,NavigableString):
-													features.append(li)
-												elif li.strong:
-													features.append(li.strong.text)
-												else:
-													pass
-
-
-									else:
-											pass
-
-								else:
-									pass
-							except Exception as e:
-								print(e)
-
-						break
-				for li in features:
-					clean_features.append(li.encode("utf-8"))
-			try:
-				conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
-				cur = conn.cursor()
-				try:
-					pass
-
-					cur.execute("""INSERT INTO kenyan_stores_scraper_products(product_name,product_image,product_rating,product_key_features)
-								VALUES(%s,%s,%s,%s)""",(name,image,prod_rating,clean_features))
-					
-				except Exception as e:
-					print(e)
-				conn.commit()
-				cur.close()
-				conn.close()
-
-			except Exception as e:
+		except Exception as e:
 				print(e)
 			
 					

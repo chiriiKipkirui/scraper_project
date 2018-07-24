@@ -2,15 +2,16 @@ import bs4
 import re
 import requests
 import psycopg2
-import time
+import datetime
 import keys
 
-time_now = time.time()
+time_now = datetime.datetime.now()
 
 
 
 class Scraper(object):
-		global jumia_url,avechi_url,killmall_url,headers
+		global jumia_url,avechi_url,killmall_url,headers,warranty,seller,vendor,delivery,return_time
+		warranty=seller=vendor=delivery=return_time=''
 		jumia_url = 'https://www.jumia.co.ke/catalog/?q='
 		avechi_url = 'https://avechi.com/catalogsearch/result/?q='
 		killmall_url= 'https://www.kilimall.co.ke/?act=search&keyword='
@@ -20,9 +21,13 @@ class Scraper(object):
 	}
 
 		def __init__(self,product_name,id):
-			self.product_name = product_name.replace('-','')
-			self.link = self.product_name[:25].replace(' ','+')
-			self.jumia_url = jumia_url+self.product_name[:10]
+			# self.product_name = product_name.replace('-','')
+			self.product_name = product_name.split(' ')
+			for i in self.product_name:
+				if i =='-':
+					self.product_name.remove(i)
+			self.link = '+'.join(self.product_name[:3])
+			self.jumia_url = jumia_url+self.link
 			self.avechi_url = avechi_url+self.link
 			self.killmall_url = killmall_url+self.link
 			self.id = id
@@ -46,25 +51,55 @@ class Scraper(object):
 					return_time=0
 					discount = 0
 					vendor = ''
-				else:
+				elif soup.find('div',attrs={'class':'product-main-content'}):
+					# 
+					price_avechi = float(soup.find("span",{"class":"price"}).text[3:].replace(',',''))
+					vendor = ''
+					price_old = float(soup.find('span',attrs = {'data-price-type':"oldPrice"})['data-price-amount'])
+					if price_old:
+						discount = price_old - price_avechi
+					else:
+						discount = 0
+					warranty = ''
+					return_time = '7 days'
+					delivery = '1-3 days'
 
-					ins = soup.find('span',attrs={'data-price-type':'finalPrice'})
-					a_link = soup.find("li",{"class":"item product product-item"}).a["href"]
-					res2 = requests.get(a_link,headers=headers)
-					soup2 = bs4.BeautifulSoup(res2.text,'lxml')
-					price_avechi = float(soup2.find("span",{"class":"price"}).text[3:].replace(',',''))
+
+
+
+				else:
 					try:
-						vendor = soup2.find("div",{"class":"vendor-info"}).next.next.string
-					except:
-						vendor = ''
-						pass
-					delivery = '24 hours'
-					warranty=""
-					return_time = 7
-					discount=0
-					print(price)
+
+						ins = soup.find('span',attrs={'data-price-type':'finalPrice'})
+						a_link = soup.find("li",{"class":"item product product-item"}).a["href"]
+						res2 = requests.get(a_link,headers=headers)
+						soup2 = bs4.BeautifulSoup(res2.text,'lxml')
+						price_avechi = float(soup2.find("span",{"class":"price"}).text[3:].replace(',',''))
+						try:
+							vendor = soup2.find("div",{"class":"vendor-info"}).a.get_text()
+						except:
+							vendor = ''
+							pass
+						delivery = soup2.find('div',attrs={'class':'delivery-img-wrap'}).get_text()
+						warranty= soup.find('pre',attrs={'xml':"space"}).find_all('strong')
+						if warranty:
+							warranty = warranty
+
+						else:
+							warranty = ''
+						return_time = 7
+						price_old = float(soup2.find('span',attrs = {'data-price-type':"oldPrice"})['data-price-amount'])
+						print(price_old)
+						# if price_old:
+						# 	discount = price_old - price_avechi
+						# else:
+						# 	discount = 0
+					except Exception as e:
+						print(e)
+
+					
 				try:
-					conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+					conn = psycopg2.connect(database='scraperdata',user= 'postgres',host='',password='ezra7477')
 					cur = conn.cursor()
 					if price_avechi ==0 or price_avechi==None:
 						pass
@@ -80,6 +115,9 @@ class Scraper(object):
 
 			except Exception as e:
 				print(e)
+			finally:
+				pass
+
 			'''End of the avechi producct scraper'''
 		def JumiaScraper(self,x,y):
 			try:
@@ -92,21 +130,25 @@ class Scraper(object):
 				res_product_details = requests.get(details_url,headers = headers)
 				soup_details = bs4.BeautifulSoup(res_product_details.text,'lxml')
 				price_jumia = soup_details.find("span",attrs={'dir':'ltr','data-price':re.compile('\d+')})['data-price']
-				details = soup_details.find('div',{'class':'list -features -compact -no-float'})
+				# details = soup_details.find('div',{'class':'list -features -compact -no-float'})
 				seller = soup_details.find("a",{'class':'-name'}).get_text()
+				if seller:
+					seller = seller
+				else:
+					seller=''
 				delivery = 3
 				warranty = soup_details.find("div",{'class':'-warranty'}).find('span',{'class':'-description'}).get_text()
 				discount = 0
 				return_time= 7
 
-				details_li = details.ul.contents
-				productDetails = []
-				for i in range(len(details_li)):
-					productDetails.append(details_li[i].text)
+				# details_li = details.ul.contents
+				# productDetails = []
+				# for i in range(len(details_li)):
+				# 	productDetails.append(details_li[i].text)
 
 
 				try:
-					conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+					conn = psycopg2.connect(database='scraperdata',user= 'postgres',host='',password='ezra7477')
 					cur = conn.cursor()
 					if price_jumia ==0 or price_jumia ==None:
 						pass
@@ -124,6 +166,7 @@ class Scraper(object):
 			except Exception as e:
 				print(e)
 
+
 		def killmallScraper(self,x,y):
 			try:
 				res = requests.get(x, headers=headers)
@@ -139,20 +182,25 @@ class Scraper(object):
 					return_time=0
 					seller=''
 					discount=0
+					delivery=''
 				else:
 					next_link = soup.find("h2",{'class':'goods-name'}).a["href"]
 					resp_details = requests.get(next_link,headers=headers)
 					soup_details = bs4.BeautifulSoup(resp_details.text,'lxml')
-
 					price_killmall = soup_details.find('dd',{'class':'price'}).h2.strong.get_text()[4:].replace(',','')
-					delivery = 3
-					return_time =  7
+					delivery = soup_details.find('li',attrs={"class":"l1"}).get_text()
+					return_time = soup_details.find('li',attrs={"class":'l4'}).get_text()
 					warranty = ''
-					seller= ''
-					discount=0
+					seller= soup_details.find('dl',attrs={"class":'mb10'}).a.get_text()
+					discount=soup_details.find("span",attrs={'class':'sale-rule'}).em.get_text()[4:].replace(',','')
+					if discount:
+						discount = int(discount)
+					else:
+						discount=0
 					
+
 				try:
-					conn = psycopg2.connect(database='dd3k5k07r0pec2',user= 'skbfthymdatfrb',host='ec2-54-204-2-26.compute-1.amazonaws.com',password='7380d6d5ad9182a7a79ae581583828814b746ac23da120b7b1404337a3814b10')
+					conn = psycopg2.connect(database='scraperdata',user= 'postgres',host='',password='ezra7477')
 					cur = conn.cursor()
 					if price_killmall==0 or price_killmall==None:
 						pass
@@ -170,6 +218,7 @@ class Scraper(object):
 
 			except Exception as e:
 				print(e)
+			
 
 
 	
