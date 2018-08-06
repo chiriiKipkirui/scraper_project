@@ -1,33 +1,24 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Shopping Assistant</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-    <!--local development -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-
-    <!--end of local dev't -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-<div class="headers">
-<h3 >Shopping Assistant</h3></div>
-<div class="search_area">
-        <form method="GET" action="">
-            <input type="text" name="search_keyword" placeholder="Search Products" value="{{request.get.search_keyword}}">&nbsp;&nbsp;
+{% extends 'main/base.html'%}
+{%block title%}Home{%endblock%}
+{% load static%}
+{%block search%}<li>
+<form class="navbar-form navbar-left" method="GET" role="search">
+  <div class="form-group">
+    <input type="text" class="form-control" name="search_keyword" placeholder="Search" style="width:200px;margin-left:60px;">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form></li>
+{% endblock%}
+{% block body%}
+<!-- <div class="search_area">
+        <form action="">
+            <input type="text"  placeholder="Search Products" value="{{request.get.search_keyword}}">&nbsp;&nbsp;
             <button type="submit" id="search_button">Search</button>
         </form>
-    </div><br><br><br>
+    </div><br><br><br> -->
 <section id="section_one">
     <p>Online shopping is a common activity that most of us especially the youth have adopted so much.This comes because of the internet penetration especially in Kenya where Technology has taken root.The rise of online shops has increased dramatically in the last four years with major players being Jumia,Killmall and Avechi.Despite this most of the online shops don't take full utility of the price drop downs,promotions and other product characteristics.To advice users on this and other statistical xteristics i decided to develop this application.<p>The application keeps track of the data on the product characteristics from three online shops stores in a database every week and updates.Data is then presented to the user for users predictions and use.All Data is available free of charge and well formatted for scraping </p>
-    The websites scraped are <span id="sites"><a href="https://www.jumia.co.ke">Jumia</a>
-            <a href="https://www.kilimall.co.ke/index.php">KillMall</a> and <a href="https://www.avechi.com">Avechi</a></span>.
-        All the product characteristics tend to change depending on the sites data.Thank You</p>
-    <p>These are just some samples of the products in our database just search on the Search Area above for that particular product you need while watching out for an api</p>
+   
 
 </section>
 <section id="section_two">
@@ -36,8 +27,9 @@
     {% if products %}
     <div class="row">
         <div class="col-md-3 col-sm-6"><h4>Product Name</h4><hr></div>
-        <div class="col-md-7 col-sm-6 product-keyfeatures"><h4>KeyFeatures</h4><hr></div>
-        <div class="col-md-2 product-image"><h4>Product Image</h4><hr>
+        <div class="col-md-5 col-sm-4 product-keyfeatures"><h4>KeyFeatures</h4><hr></div>
+        <div class="col-md-2 product-image"><h4>Product Image</h4><hr></div>
+        <div class="col-md-1 product-image"><h4>Track</h4><hr></div>
         
     </div>
          {% for prod in products%}
@@ -50,7 +42,7 @@
 
     </div>
 
-    <div class="col-md-7 col-sm-6 product-keyfeatures">
+    <div class="col-md-5 col-sm-6 product-keyfeatures">
         
             <p class="details">{{ prod.product_key_features }}</p>
       
@@ -59,6 +51,11 @@
     <div class="col-md-2 product-image">
     
             <p><img class="{{ prod.product_name }}" src="{{ prod.product_image }}" height="80px"> </p>
+        
+    </div>
+    <div class="col-md-1 track">
+    
+            <a href="#" class="btn btn-success">Add</a>
         
     </div>
 
@@ -95,42 +92,6 @@
 
 </section><br>
 
-
-
-
 </body>
-<br>
-<footer>
-    <div class="row">
-    <section class="col-md-4 footer-left">
-        <p><br>Let's code the Universe :)
-        Happy Coding</p>
-        <p>&copy;Chirchir Softwares 2018<span class="glyphicon glyphicon-cd"></span></span></p>
-    </section>
-    <div class="col-md-4"><br><br><br>
-        <h5 style="text-align:center;">Built with <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/591px-Love_Heart_symbol.svg.png" height="27px" width="27px"> by Ezra Chirchir @chirie_ezra</h5>
-    </div>
-    <section class="col-md-4 footer-right">
-        <p>Connect  with me on </p>
-           <a href="https://www.facebook.com/EzraChirchir" class="fa fa-facebook-square"></a>
-        <a  href="https://twitter.com/chirie_ezra" class="fa fa-twitter"></a>
-        <a  href="https://www.youtube.com/EzraChirchir" class="fa fa-youtube"></a>
-        <a  href="#" class="fa fa-whatsapp"></a>
-        <a  href="https://www.google.com/kipkiruichirii" class="fa fa-google-plus"></a>
+{%endblock%}
 
-
-
-
-    </section>
-</div>
-
-
-</footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<!--local development -->
-<script src="{% static 'js/jquery.js'%}"></script>
-<script src="{% static 'js/bootstrap.min.js'%}"></script>
-<script src="{% static 'js/format.js'%}"></script>
-<!--end of local dev -->
-</html>

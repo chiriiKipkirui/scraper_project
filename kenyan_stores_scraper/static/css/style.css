@@ -1,4 +1,22 @@
-body{
+
+/*navbar */
+
+.navbar{
+    margin-top:2px;
+    background-color:teal;
+    border-radius:0;
+    min-width:100px;
+    color:#fff;
+    
+}
+#header ul li a{
+    color:white;
+    font-size:1.3em;
+}
+.navbar-brand{
+
+}
+/*end of navbar*/body{
     background-color:#fff;
     font-family: "Acherus Grotesque" ,Arial, Helvetica;
     color:#000;
@@ -27,29 +45,11 @@ canvas{
     height: 100%;
     width:100%;
 }*/
-#search_button {
-    background:#49c5b6;
-    color:#fff;
-    height:30px;
-    border:none;
-    font-size:1.2em;
-
-}
 .products{
     float:left;
     padding-right:12%;
 }
-#search_button{
-    background-color:#3CBCBC;
 
-}
-#search_button:hover{
-    background:#49c5b6;
-    color:#fff;
-    height:40px;
-    border:none;
-
-}
 #section_one,#section_one p {
     display:block;
     text-indent: 0;
@@ -60,18 +60,6 @@ canvas{
    min-height: 100px;0px;
 }
 
-h3{
-
-    font-family:Ubuntu;
-    text-align: center;
-    min-height:40px;
-    font-weight: bolder;
-    font-size: 1.6em;
-
-    padding-top:10px;
-   padding-bottom: 14px;
-
-}
 .product-name a {
     color:blue;
     width: 30%;
@@ -84,64 +72,48 @@ h3{
 }
 .fa{
     font-size:23px;
+    color:white;
+    margin-left:20px;
 }
-input[type='text'],input[type='text']:active{
+/*input[type='text'],input[type='text']:active{
     height: 35px;
     padding:5px 10px;
-    /*background:#300032;*/
-    /*color:#fff;*/
+    background:#300032;
+    /*color:#fff;
     border-radius:5px;
     font-size:1.3em;
     border-color: cyan;
 
-}
+}*/
 footer{
-    background-color:#FF1493;
+    background-color:black;
     margin-bottom:0;
     padding:30px;
+    color:white;
 
-}
-.footer-right{
-    float: right;
-}
-.footer-left{
-    float:left;
 }
 ul li{
     list-style: none;
 }
-.fa{
-        margin-left:20px;
-    }
-.home_btn{
-        float:right;
-        text-decoration: none;
-        margin-right: 20px;
 
-          margin: 0;
-          width:100%;
-          min-height:40px;
-          padding-left:70%;
-
-    }
-    .home_btn .btns{
-        color:#000;
-
-        font-weight: bold;
-        font-size:1.2em;
-    }
-    .home_btn .btns:hover {
-        color:white;
-        background: none;
-    }
-
- a:hover{
+/* a:hover{
         background:blue;
         color:white;
         text-decoration: none
-    }
+    }*/
 #products_container{
     margin-left:13px;
+}
+.navbar-toggle .icon-bar{
+    background: #000;
+}
+.badge {
+    font-size:1.1em;
+}
+.header_list{
+    text-decoration: underline;
+    font-family: Ubuntu;
+    text-align: center;
 }
 
 @media (max-width: 670px){
@@ -181,6 +153,13 @@ ul li{
         padding: 0;
         margin: 0;
         font-weight: bold;
+    }
+    .connection_links a:hover{
+        color:white;
+
+    }
+    .fa .fa-heart{
+        color:red;
     }
 
     a:hover{

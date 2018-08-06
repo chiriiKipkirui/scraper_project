@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Jumia, Avechi, Killmall, Products
+from .models import Jumia, Avechi, Killmall, Products,TrackedProducts
 
 
 class JumiaAdmin(admin.ModelAdmin):
@@ -48,3 +48,4 @@ class ProductsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Products,ProductsAdmin)
+admin.site.register(TrackedProducts)

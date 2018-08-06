@@ -42,6 +42,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Scraper.urls'
+LOGIN_REDIRECT_URL = '/'
 
 TEMPLATES = [
     {

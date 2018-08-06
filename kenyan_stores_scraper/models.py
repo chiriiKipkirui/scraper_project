@@ -2,6 +2,7 @@ from django.db import models
 # from django.db.models.signals import pre_save
 # from django.utils.text import slugify
 from django.utils import timezone
+from django.contrib.auth.models import User
 import time
 
 
@@ -15,25 +16,6 @@ class Products(models.Model):
     def __str__(self):
         return self.product_name
 
-
-# def create_new_slug(instance,new_slug=None):
-#     slug = slugify(instance.product_name[:10])
-#     if new_slug is not None:
-#         slug = new_slug
-#     qs = Products.objects.filter(slug=slug).order_by("-id")
-#     exists = qs.exists()
-#     if exists:
-#         new_slug= "%s-%s" %(slug,qs.first().id)
-#         return create_new_slug(instance,new_slug=new_slug)
-#     return slug
-
-
-# def product_pre_save_ceiver(sender,instance,*args,**kwargs):
-#     if not instance.slug:
-#         instance.slug = create_new_slug(instance)
-
-
-# pre_save.connect(product_pre_save_ceiver,sender=Products)
 
 
 class Jumia(models.Model):
@@ -75,6 +57,13 @@ class Killmall(models.Model):
         return self.product_id.product_name + "at " + str(self.product_price)+ "as at "+str(self.timestamp)
 
 
+class TrackedProducts(models.Model):
+    product = models.ForeignKey(Products,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.product.product_name
 
 
 

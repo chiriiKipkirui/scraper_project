@@ -1,0 +1,49 @@
+{% extends  'main/base.html'%}
+{% load static%}
+{% block title%}Tracked Products{% endblock%}
+{% block badge%}<span class="badge badge-primary">{{count}}</span>{%endblock%}
+{% block body%}
+<p class="text-center">This is where all the products you are keeping track of will appear here.Check the progress of your products.</p>
+<div class="container">
+	{% if products %}
+	<div class="row">
+		<div class="col-md-5 col-sm-4">
+			<h3 class="header_list">Product Name</h3>
+			
+			
+		</div>
+		<div class="col-md-3 col-sm-3">
+			<h3 class="header_list">Product Image</h3>
+			
+		</div>
+		<div class="col-md-2 col-sm-2" >
+			<h3 class="header_list">Action</h3>	
+		</div></div>
+		{% for prod in products%}
+
+	<div class="row">
+		<div class="col-md-5 col-sm-4">
+			<p>{{prod.product_name}}</p>
+			
+			
+		</div>
+		<div class="col-md-3 col-sm-3">
+			<img src="{{prod.product_image}}">
+			
+			
+		</div>
+		<div class="col-md-2 col-sm-2" >
+			<span class="glyphicon glyphicon-trash" title="Delete">
+				
+				<a href="{% url 'kenyan_stores_scraper:delete_product' prod.id%}">Delete</a>
+			</span>
+	</div></div><hr>
+
+
+	
+	{% endfor%}
+	{% else%}
+	<p style="font-size:1.3em;color:#000">It seems you don't have any products under trackings add them from here &nbsp;&nbsp;<a class="" href="#">Here</a></p>
+	{% endif%}
+</div>
+{% endblock%}

@@ -1,11 +1,13 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import  *
+from .forms import *
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View
 from easy_pdf.rendering import render_to_pdf
 from itertools import chain
+from django.contrib.auth import logout,authenticate,login
 
 # scraping for products from jumia to the Products table on the db
 
@@ -97,6 +99,59 @@ def details(request,pk):
 
     return render(request,"main/results.html",context)
 
+
+def logout_view(request):
+    logout(request)
+    return redirect("kenyan_stores_scraper:login")
+
+def registration_view(request):
+    form = RegistrationForm(None)
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            email = form.cleaned_data.get('email')
+            user = User.objects.create_user(username=username,password=password,
+                    first_name=first_name,last_name=last_name,email=email)
+            user.save()
+            user = authenticate(username=username,password=password)
+            if user:
+                login(request,user)
+                return redirect('/')
+        return render(request, 'accounts/signup.html', {'form': form})
+    return render(request, 'accounts/signup.html', {'form':form})
+
+
+def tracking_views(request):
+    products_tracked = TrackedProducts.objects.filter(user=request.user)
+    
+    if len(products_tracked)>1:
+        products_list = [Products.objects.filter(id=prod.product.id) for prod in products_tracked]
+        products=[]
+        for prod in products_list:
+            for i in prod:
+                products.append(i)
+    elif len(products_tracked)==1:
+        
+        products = Products.objects.filter(id=products_tracked[0].product.id)
+        
+       
+    else:
+        products = ''
+        
+    return render(request,'main/products.html',{'products':products,})
+
+
+
+def delete_product(request,id):
+    product = TrackedProducts.objects.get(product=Products.objects.get(pk=id))
+    product.delete()
+
+    return redirect("kenyan_stores_scraper:tracking")
+
 class GeneratePdf(View):
     
     def get(self, request, *args, **kwargs):
@@ -104,4 +159,3 @@ class GeneratePdf(View):
         pdf = render_to_pdf('pdf/contentpage.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
         
-    
