@@ -23,7 +23,7 @@
 
 	<div class="row">
 		<div class="col-md-5 col-sm-4">
-			<p>{{prod.product_name}}</p>
+			<a href="{% url 'kenyan_stores_scraper:details' prod.id%}">{{prod.product_name}}</a>
 			
 			
 		</div>
@@ -35,7 +35,7 @@
 		<div class="col-md-2 col-sm-2" >
 			<span class="glyphicon glyphicon-trash" title="Delete">
 				
-				<a href="{% url 'kenyan_stores_scraper:delete_product' prod.id%}">Delete</a>
+				<a class="btn btn-danger" href="{% url 'kenyan_stores_scraper:delete_product' prod.id%}">Delete</a>
 			</span>
 	</div></div><hr>
 

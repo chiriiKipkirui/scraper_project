@@ -2,9 +2,27 @@
 {% load static%}
 {%block title%}Details{%endblock%}
 {%block body%}
+<style type="text/css" media="screen">
+.btn {
+	margin-right:10px;
+}
+}
+	
+</style>
 
 
-	<h5 class="text-center" style="font-weight: bold">Details for product {{product.product_name}}</h5><hr>
+	<span class="text-left" style="font-weight: bold">Details for product {{product.product_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+	<br>
+	{% if user.is_authenticated%}
+
+	{% if tracked%}
+	<a style="text-align: right;" href="{% url 'kenyan_stores_scraper:delete_product' product.id%}" title="Remove the product from tracked" class="btn btn-warning">Remove from tracked</a>
+		
+	{%else%}
+	<a href="{% url 'kenyan_stores_scraper:add_to_tracked' product.id%}" style="text-align: right"; title="Ädd the product to tracked products" class="btn btn-success">Add to Tracked</a>
+
+	{%endif%}
+	{%endif%}<hr>
 	<div class="container-fluid">
 
 		<div class="row">

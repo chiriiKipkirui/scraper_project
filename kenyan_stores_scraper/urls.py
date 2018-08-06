@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^account/register$',scraper_views.registration_view,name='register'),
     url(r'^products/tracked$',scraper_views.tracking_views,name="tracking"),
     url(r'^delete/(?P<id>\d+)/$',scraper_views.delete_product,name="delete_product"),
+    url(r'^addtotracked/(?P<prod_id>\d+)',scraper_views.add_to_tracked,name='add_to_tracked'),
 
 
 ]

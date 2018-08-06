@@ -32,17 +32,11 @@ def home(request):
         else:
             pass
     final_ids.sort()
-    
-    
-    
     product_list= [Products.objects.filter(id=i) for i in final_ids]
     products = []
     for x in product_list:
         for y in x:
             products.append(y)
-            
-    
-
     query = request.GET.get("search_keyword")
 
 
@@ -81,6 +75,12 @@ def home(request):
 
 def details(request,pk):
     product_id = Products.objects.get(pk=pk)
+    tracked = TrackedProducts.objects.filter(product=product_id).exists()
+    if tracked:
+        tracked=True
+    else:
+        tracked = False
+
 
     jumia_details = Jumia.objects.filter(product_id = product_id.id)
     killmall_details = Killmall.objects.filter(product_id = product_id.id)
@@ -89,7 +89,8 @@ def details(request,pk):
     'jumia_prods':jumia_details,
     'killmall_prods': killmall_details,
     'avechi_details':avechi_details,
-    'product':product_id
+    'product':product_id,
+    'tracked':tracked
 
     }
    
@@ -127,6 +128,7 @@ def registration_view(request):
 
 def tracking_views(request):
     products_tracked = TrackedProducts.objects.filter(user=request.user)
+    count = len(products_tracked)
     
     if len(products_tracked)>1:
         products_list = [Products.objects.filter(id=prod.product.id) for prod in products_tracked]
@@ -142,7 +144,7 @@ def tracking_views(request):
     else:
         products = ''
         
-    return render(request,'main/products.html',{'products':products,})
+    return render(request,'main/products.html',{'products':products,'count':count})
 
 
 
@@ -150,7 +152,19 @@ def delete_product(request,id):
     product = TrackedProducts.objects.get(product=Products.objects.get(pk=id))
     product.delete()
 
-    return redirect("kenyan_stores_scraper:tracking")
+    return redirect("kenyan_stores_scraper:details",pk=id)
+
+def add_to_tracked(request,prod_id):
+    product_item = Products.objects.get(id=prod_id)
+    exist  = TrackedProducts.objects.filter(product=product_item).exists()
+    if exist:
+        return redirect('kenyan_stores_scraper:home')
+    else:
+        product = TrackedProducts.objects.create(user=request.user,product = product_item,status=True)
+        product.save()
+        return redirect("kenyan_stores_scraper:details",pk=prod_id)
+
+
 
 class GeneratePdf(View):
     

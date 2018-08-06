@@ -115,6 +115,15 @@ ul li{
     font-family: Ubuntu;
     text-align: center;
 }
+.errorlist li{
+   color:red;
+   list-style-type: none;
+   font-family: Aller;
+   font-size:1.0em;
+}
+form {
+    margin:50px;
+}
 
 @media (max-width: 670px){
     body{
@@ -161,6 +170,17 @@ ul li{
     .fa .fa-heart{
         color:red;
     }
+    form {
+        padding-left:2px;
+        margin-left:2px;
+
+    }
+    form button{
+        margin-left:40%;
+    }
+    form #reset{
+        margin-left: 20%;
+    }
 
     a:hover{
         background:blue;
@@ -174,9 +194,9 @@ ul li{
         float:left;
         display: inline;
     }
-    form input[type="text"]{
-        width:70%;
-    }
+   /* form input[type="text"]{
+        width:70%;*/
+    
     .fa{
         margin-left:20px;
     }
