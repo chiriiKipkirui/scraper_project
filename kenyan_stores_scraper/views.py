@@ -2,12 +2,14 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import  *
 from .forms import *
-from django.db.models import Q
+from django import forms
+from django.db.models import Q,Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View
 from easy_pdf.rendering import render_to_pdf
 from itertools import chain
 from django.contrib.auth import logout,authenticate,login
+import datetime
 
 # scraping for products from jumia to the Products table on the db
 
@@ -75,13 +77,14 @@ def home(request):
 
 def details(request,pk):
     product_id = Products.objects.get(pk=pk)
-    tracked = TrackedProducts.objects.filter(product=product_id).exists()
+    if request.user.is_authenticated:
+       tracked = TrackedProducts.objects.all().filter(user=request.user).filter(product=product_id)
+    else:
+        tracked=False
     if tracked:
         tracked=True
     else:
         tracked = False
-
-
     jumia_details = Jumia.objects.filter(product_id = product_id.id)
     killmall_details = Killmall.objects.filter(product_id = product_id.id)
     avechi_details = Avechi.objects.filter(product_id = product_id.id)
@@ -105,6 +108,11 @@ def logout_view(request):
     logout(request)
     return redirect("kenyan_stores_scraper:login")
 
+# def get_cleaned_password(password):
+#     if password ==1234:
+#         raise form.ValidationError("Password is too common")
+#         return False
+
 def registration_view(request):
     form = RegistrationForm(None)
     if request.method == 'POST':
@@ -116,12 +124,9 @@ def registration_view(request):
             last_name = form.cleaned_data.get('last_name')
             email = form.cleaned_data.get('email')
             user = User.objects.create_user(username=username,password=password,
-                    first_name=first_name,last_name=last_name,email=email)
+                        first_name=first_name,last_name=last_name,email=email)
             user.save()
-            user = authenticate(username=username,password=password)
-            if user:
-                login(request,user)
-                return redirect('/')
+            return redirect('kenyan_stores_scraper:login')
         return render(request, 'accounts/signup.html', {'form': form})
     return render(request, 'accounts/signup.html', {'form':form})
 
@@ -146,17 +151,37 @@ def tracking_views(request):
         
     return render(request,'main/products.html',{'products':products,'count':count})
 
+def reportgenerator(request):
+    # products = list((TrackedProducts.objects.values_list('product_id'),flat=True))
+    # # set(ProductOrder.objects.values_list('category', flat=True))
+    products_count = []
+    products_to_view =[]
+    products = TrackedProducts.objects.order_by('product_id').values_list('product_id').distinct()[:10]
+    # print("products",products)
+
+    for i in products:
+        product_coun = TrackedProducts.objects.filter(product_id=i[0]).count()
+        product_name_to = Products.objects.get(id=i[0]).product_name
+        products_count.append(product_coun)
+        products_to_view.append(product_name_to)
+   
+    data= {
+    'products_count':products_count,
+    'products_name':products_to_view
+    }
+    pdf = render_to_pdf('main/report.html', data)
+    return HttpResponse(pdf, content_type='application/pdf')
 
 
 def delete_product(request,id):
     product = TrackedProducts.objects.get(product=Products.objects.get(pk=id))
     product.delete()
 
-    return redirect("kenyan_stores_scraper:details",pk=id)
+    return redirect("kenyan_stores_scraper:home")
 
 def add_to_tracked(request,prod_id):
     product_item = Products.objects.get(id=prod_id)
-    exist  = TrackedProducts.objects.filter(product=product_item).exists()
+    exist  = TrackedProducts.objects.filter(Q(product=product_item)&Q(user=request.user)).exists()
     if exist:
         return redirect('kenyan_stores_scraper:home')
     else:
@@ -166,10 +191,26 @@ def add_to_tracked(request,prod_id):
 
 
 
-class GeneratePdf(View):
+def generate_pdf(request,pk):
+    product = Products.objects.get(id=pk)
+    jumia_data = Jumia.objects.filter(product_id=product)
+    killmall_data = Killmall.objects.filter(product_id=product)
+    avechi_data = Avechi.objects.filter(product_id=product)
+    data = {
+    'product':product,
+    'jumia_data':jumia_data,
+    'killmall_data':killmall_data,
+    'avechi_data':avechi_data,
+    'date':datetime.date.today()}
+    pdf = render_to_pdf('pdf/contentpage.html', data)
+    return HttpResponse(pdf, content_type='application/pdf')
     
-    def get(self, request, *args, **kwargs):
-        data = general_details[0]
-        pdf = render_to_pdf('pdf/contentpage.html', data)
-        return HttpResponse(pdf, content_type='application/pdf')
+
+
+# class GeneratePdf(View):
+    
+#     def get(self, request, *args, **kwargs):
+#         data = general_details[0]
+#         pdf = render_to_pdf('pdf/contentpage.html', data)
+#         return HttpResponse(pdf, content_type='application/pdf')
         

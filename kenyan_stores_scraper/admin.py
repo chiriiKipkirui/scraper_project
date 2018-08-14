@@ -49,3 +49,6 @@ class ProductsAdmin(admin.ModelAdmin):
 
 admin.site.register(Products,ProductsAdmin)
 admin.site.register(TrackedProducts)
+admin.site.site_header = 'Shopping Assistant'                    # default: "Django Administration"
+admin.site.index_title = 'Administrator'                 # default: "Site administration"
+admin.site.site_title = 'Shopping Assistant'

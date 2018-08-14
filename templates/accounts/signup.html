@@ -5,12 +5,21 @@
 {% block body %}
 <style>
 
-        #id_password,#id_username,#id_first_name,#id_last_name{
+        #id_password,#id_username,#id_first_name,#id_last_name,{
             margin-left:23px;
         }
+        #id_email{
+            margin-left:35px;
+        }
+    @media(max-width: 670px){
+        #id_confirm_password{
+            margin-left:30%;
+        }
+    }
 
 </style>
 <div class="container">
+    <h3 style="margin-left: 40%;font-family:Ubuntu"><b>Sign Up</b></h3>
 
     <form method="POST" action="" enctype="multipart/form-data" novalidate>
     {% csrf_token %}

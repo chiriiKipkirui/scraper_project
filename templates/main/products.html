@@ -1,6 +1,7 @@
 {% extends  'main/base.html'%}
 {% load static%}
 {% block title%}Tracked Products{% endblock%}
+
 {% block badge%}<span class="badge badge-primary">{{count}}</span>{%endblock%}
 {% block body%}
 <p class="text-center">This is where all the products you are keeping track of will appear here.Check the progress of your products.</p>
@@ -28,14 +29,16 @@
 			
 		</div>
 		<div class="col-md-3 col-sm-3">
-			<img src="{{prod.product_image}}">
+			<img src="{{prod.product_image}}" height="150px;">
 			
 			
 		</div>
 		<div class="col-md-2 col-sm-2" >
-			<span class="glyphicon glyphicon-trash" title="Delete">
+			
 				
-				<a class="btn btn-danger" href="{% url 'kenyan_stores_scraper:delete_product' prod.id%}">Delete</a>
+				<a class=" text-center btn btn-danger" href="{% url 'kenyan_stores_scraper:delete_product' prod.id%}" >
+					
+				<span class="glyphicon glyphicon-trash" title="Delete">&nbsp;&nbsp;Delete</a>
 			</span>
 	</div></div><hr>
 
@@ -43,7 +46,7 @@
 	
 	{% endfor%}
 	{% else%}
-	<p style="font-size:1.3em;color:#000">It seems you don't have any products under trackings add them from here &nbsp;&nbsp;<a class="" href="#">Here</a></p>
+	<p style="font-size:1.3em;color:#000">It seems you don't have any products under trackings add them from the details page of each product.</p>
 	{% endif%}
 </div>
 {% endblock%}

@@ -10,6 +10,15 @@
 </form></li>
 {% endblock%}
 {% block body%}
+<style>
+    
+/*    img:hover{
+        position: absolute;
+        height:200px;
+        width:200px;
+        z-index:2;
+    }*/
+</style>
 <!-- <div class="search_area">
         <form action="">
             <input type="text"  placeholder="Search Products" value="{{request.get.search_keyword}}">&nbsp;&nbsp;
@@ -17,7 +26,7 @@
         </form>
     </div><br><br><br> -->
 <section id="section_one">
-    <p>Online shopping is a common activity that most of us especially the youth have adopted so much.This comes because of the internet penetration especially in Kenya where Technology has taken root.The rise of online shops has increased dramatically in the last four years with major players being Jumia,Killmall and Avechi.Despite this most of the online shops don't take full utility of the price drop downs,promotions and other product characteristics.To advice users on this and other statistical xteristics i decided to develop this application.<p>The application keeps track of the data on the product characteristics from three online shops stores in a database every week and updates.Data is then presented to the user for users predictions and use.All Data is available free of charge and well formatted for scraping </p>
+    <p>This application keeps track of the data on the product characteristics from three online shops stores in a database every week and updates.Data is then presented to the user for users predictions and use.All Data is available free of charge and well formatted for scraping </p>
    
 
 </section>
@@ -50,7 +59,7 @@
     </div>
     <div class="col-md-2 product-image">
     
-            <p><img class="{{ prod.product_name }}" src="{{ prod.product_image }}" height="80px"> </p>
+            <a href="{{prod.product_image}}" data-lightbox="image-1" ><img class="{{ prod.product_name }}"  src="{{ prod.product_image }}" height="130px" style="padding:0;margin:0"></a>
         
     </div>
    

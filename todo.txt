@@ -8,5 +8,13 @@ tracked status....
 user tracking the products...
 use ajax to add...
 
+ report
+ -----------------------
+ Most tracked products
+ Number of products in the system
+ most active user in the system
+ least popular product
+
+
 
 

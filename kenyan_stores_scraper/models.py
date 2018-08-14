@@ -14,7 +14,7 @@ class Products(models.Model):
     # slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return self.product_name
+        return self.product_name.encode("utf-8")
 
 
 
@@ -28,7 +28,7 @@ class Jumia(models.Model):
     return_time = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.product_id.product_name + "at " + str(self.product_price) + "as at " + str(self.timestamp)
+        return self.product_id.product_name.encode("utf-8") + "at " + str(self.product_price) + "as at " + str(self.timestamp)
 
 
 class Avechi(models.Model):
@@ -41,7 +41,7 @@ class Avechi(models.Model):
     return_time = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.product_id.product_name + "at " + str(self.product_price) + "as at " + str(self.timestamp)
+        return self.product_id.product_name.encode("utf-8") + "at " + str(self.product_price) + "as at " + str(self.timestamp)
 
 
 class Killmall(models.Model):
@@ -54,7 +54,7 @@ class Killmall(models.Model):
     return_time = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.product_id.product_name + "at " + str(self.product_price)+ "as at "+str(self.timestamp)
+        return self.product_id.product_name.encode("utf-8") + "at " + str(self.product_price)+ "as at "+str(self.timestamp)
 
 
 class TrackedProducts(models.Model):
@@ -63,7 +63,7 @@ class TrackedProducts(models.Model):
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.product.product_name
+        return str(self.product.id)
 
     class Meta:
         ordering = ['id']

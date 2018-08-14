@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Content of the pdf </title>
+	<title>Shopping Assistant pdf </title>
 	{% load static %}
 </head>
 <style type="text/css">
-	*{background-color:white;
+	*{
+		background-color:white;
 		text-align: center;
 	
 font-size: 1.0em;
@@ -34,20 +35,50 @@ footer {
 	color: black;
 	font-family: algerian;
 }
+.heading{
+	background:teal;
+	font-size:32px;
+}
 </style>
 <body>
-	<h2>Shopping Assistant</h2><date style="text-align: right;color:slategrey;">{{date}}</date>
+	<h2 class="heading">Shopping Assistant </h2><date style="text-align: right;color:green;">{{date}}</date>
 	<h4 style="text-align: center">Details for {{product.product_name}}</h4>
 	<p>Thank you for using our web based system.Here is the pdf version of the analytics</p>
 	<table>
-		<tr><td>Jumia price Details</td>{% for prod in jumia_prods%}<td>{{prod.product_price}} as at {{prod.timestamp}} </td>{% endfor%}</tr>
-		<tr><td>Avechi price Details</td>{% for prod in avechi_prods%}<td>{{prod.product_price}} as at {{prod.timestamp}}</td>{% endfor%}</tr>
-		<tr><td>Killmall price Details</td>{% for prod in killmall_prods%}<td>{{prod.product_price}} as at {{prod.timestamp}}</td>{% endfor%}</tr>
+		<tr>
+			<td>Jumia price Details</td>
+			{% if jumia_data%}
+
+			{% for prod in jumia_data%}<td> Kshs.{{prod.product_price}} as at {{prod.timestamp}} </td>{% endfor%}</tr>
+		
+		{%else%}
+		<td><p>No Data for this product in Jumia</p></td>
+		{%endif%}
+		<tr><td>Avechi price Details</td>
+			{% if avechi_data%}
+			{% for prod in avechi_data%}<td>Kshs.{{prod.product_price}} as at {{prod.timestamp}}</td>{% endfor%}
+			{%else%}
+		<td>No Data for this product in Avechi</td>
+		{%endif%}
+		</tr>
+		<tr><td>Killmall price Details</td>
+			{% if killmall_data%}
+			{% for prod in killmall_data%}<td>Kshs.{{prod.product_price}} as at {{prod.timestamp}}</td>{% endfor%}
+			{%else%}
+		<td>No Data for this product in Killmall</td>
+		{%endif%}
+
+		</tr>
 	</table>
-	<h5>Additional Information</h5>
-	<p>All products have a seven day return Policy from all stores</p>
-	<P>Delivery time varies also for payment details check on the proprietors sites</P>
-	<p>Warranties Vary depending on the proprietor</p>
+	
+	<div class="rating">
+		<p>Currently rated at {{product.product_rating}}/5</p>
+		<p>Sellers:Jumia <span>{{jumia_data.0.product_seller}}</span><br> Killmall:<span>{{killmall_data.0.product_seller}}</span><br> Avechi:<span>{{avechi_data.0.product_seller}}</span></p>
+		<p>Warranties:Jumia <span>{{jumia_data.0.product_warranty}}</span><br>&nbsp;&nbsp;&nbsp; Killmall:<span>{{killmall_data.0.product_warranty}}</span><br> Avechi:<span>{{avechi_data.0.product_warranty}}</span></p>
+		<p>Returntime:Jumia <span>{{jumia_data.0.return_time}} days</span><br> Killmall:<span>{{killmall_data.0.return_time}} days</span><br> Avechi:<span>{{avechi_data.0.return_time}} days</span></p>
+	
+
+	</div>
 	
 
 

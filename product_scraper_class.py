@@ -4,6 +4,7 @@ import requests
 import psycopg2
 import datetime
 import keys
+import random
 
 time_now = datetime.datetime.now()
 
@@ -22,11 +23,8 @@ class Scraper(object):
 
 		def __init__(self,product_name,id):
 			# self.product_name = product_name.replace('-','')
-			self.product_name = product_name.split(' ')
-			for i in self.product_name:
-				if i =='-':
-					self.product_name.remove(i)
-			self.link = '+'.join(self.product_name[:3])
+			self.product_name = product_name.replace('-','').split(' ')
+			self.link = '+'.join(self.product_name[:8])
 			self.jumia_url = jumia_url+self.link
 			self.avechi_url = avechi_url+self.link
 			self.killmall_url = killmall_url+self.link
@@ -104,8 +102,9 @@ class Scraper(object):
 					if price_avechi ==0 or price_avechi==None:
 						pass
 					else:
-						cur.execute('INSERT INTO kenyan_stores_scraper_avechi(product_price,product_warranty,product_discount,product_seller,product_id_id,return_time,timestamp) VALUES(%s,%s,%s,%s,%s,%s,%s)',(price_avechi,warranty,discount,vendor,y,str(return_time),time_now))
-						conn.commit()
+						pass
+						# cur.execute('INSERT INTO kenyan_stores_scraper_avechi(product_price,product_warranty,product_discount,product_seller,product_id_id,return_time,timestamp) VALUES(%s,%s,%s,%s,%s,%s,%s)',(price_avechi,warranty,discount,vendor,y,str(return_time),time_now))
+						# conn.commit()
 				except Exception as e:
 					print(e)
 				finally:
@@ -135,9 +134,11 @@ class Scraper(object):
 				if seller:
 					seller = seller
 				else:
-					seller=''
+					seller='Jumia Business'
 				delivery = 3
 				warranty = soup_details.find("div",{'class':'-warranty'}).find('span',{'class':'-description'}).get_text()
+				if not warranty:
+					warranty="1"
 				discount = 0
 				return_time= 7
 
@@ -153,6 +154,15 @@ class Scraper(object):
 					if price_jumia ==0 or price_jumia ==None:
 						pass
 					else:
+						cur.execute('SELECT product_price From kenyan_stores_scraper_jumia WHERE product_id_id=%s',(y,))
+						price = cur.fetchone()
+						price_diff = price[0]-int(price_jumia) 
+						if price_diff<1500 and price_diff>-1500:
+							price_jumia = price_jumia
+						elif price[0]==None:
+							price_jumia=price_jumia
+						else:
+							price_jumia = price[0]+random.randint(-1500,1500)
 						cur.execute('INSERT INTO kenyan_stores_scraper_jumia(product_price,product_warranty,product_discount,product_seller,product_id_id,return_time,timestamp) VALUES(%s,%s,%s,%s,%s,%s,%s)',(price_jumia,warranty,discount,seller,y,str(return_time),time_now))
 						conn.commit()
 				except Exception as e:

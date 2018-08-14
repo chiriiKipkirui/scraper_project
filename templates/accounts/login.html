@@ -4,6 +4,14 @@
 
 {% block body %}
     <style>
+form button{
+    color:white;
+    background:green;
+    border-radius: 5px;
+    border:0;
+    font-size: 1.2em;
+    padding:5px;
+    margin-left:40%;
 
     </style>
     <div class="container">
@@ -11,8 +19,8 @@
         {% csrf_token %}
           {{ form.as_p }}
 
-            <button type="submit" class="btn btn-success col-md-offset-3 col-sm-offset-2">Login</button>
-            <p id="reset"class="text-muted col-md-offset-1  col-sm-offset-1">Reset Password <a href="#">Here</a></p>
+            <button type="submit"  id="login_btn" >Login</button>
+            <p id="reset"class="text-muted col-md-offset-1  col-sm-offset-1">Reset Password <a href="/accounts/password_reset/">Here</a></p>
 
         </form>
 

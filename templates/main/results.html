@@ -1,6 +1,7 @@
 {% extends 'main/base.html'%}
 {% load static%}
 {%block title%}Details{%endblock%}
+{% block search%}<li><a href="{% url 'kenyan_stores_scraper:generatepdf' product.id%} " title="Generate pdf">&nbsp;&nbsp;GeneratePdf</a></li>{%endblock%}
 {%block body%}
 <style type="text/css" media="screen">
 .btn {
@@ -22,6 +23,8 @@
 	<a href="{% url 'kenyan_stores_scraper:add_to_tracked' product.id%}" style="text-align: right"; title="Ädd the product to tracked products" class="btn btn-success">Add to Tracked</a>
 
 	{%endif%}
+	{% else%}
+	<h5 class="text-center text-info">Please Login or SignUp to add products to your tracked products list</h5>
 	{%endif%}<hr>
 	<div class="container-fluid">
 
@@ -35,7 +38,7 @@
 					<p>Standard Deviation:<span class="std text-info"></span></p>
 				</div>
 				{% for i in jumia_prods%}
-				 <ul class="{{product.product_name}}">
+				 <ul class="{{product.product_name}} hidden">
 				 	<li>Price <b class="jumia-price">{{i.product_price}}</b> as at<b  class="jumia-time">{{i.timestamp}}</b></li>
 				 </ul>
 
@@ -57,7 +60,7 @@
 					<p>Standard Deviation:<span class="avechi-std text-info"></span></p>
 				</div>
 				{% for i in avechi_prods%}
-				 <ul class="{{product.product_name}}">
+				 <ul class="{{product.product_name}} hidden">
 				 	<li>Price <b class="avechi-price">{{i.product_price}}</b> as at <b class="avechi-time">{{i.timestamp}}</b></li>
 				 </ul>
 
@@ -82,7 +85,7 @@
 					<p>Standard Deviation:<span class="killmall-std text-info"></span></p>
 				</div>
 				{% for i in killmall_prods%}
-				 <ul class="{{product.product_name}}">
+				 <ul class="{{product.product_name}} hidden">
 				 	<li>Price <b class="killmall-price">{{i.product_price}}</b> as at <b class="killmall-time">{{i.timestamp}}</b></li>
 				 </ul>
 

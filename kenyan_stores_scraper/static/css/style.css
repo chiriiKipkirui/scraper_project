@@ -1,5 +1,8 @@
 
 /*navbar */
+body{
+    background: #fff9df;
+}
 
 .navbar{
     margin-top:2px;
@@ -35,7 +38,7 @@ h3 a{
 ./*box{
     height:300px;
     width:100%;
-    background: green;
+    background: gren;
     position: relative;
 }
 canvas{
@@ -122,7 +125,13 @@ ul li{
    font-size:1.0em;
 }
 form {
-    margin:50px;
+    margin:20px 30%;
+}
+ .fa .fa-heart{
+        color:red;
+    }
+form #reset{
+    
 }
 
 @media (max-width: 670px){
@@ -167,19 +176,17 @@ form {
         color:white;
 
     }
-    .fa .fa-heart{
-        color:red;
-    }
+   
     form {
         padding-left:2px;
         margin-left:2px;
 
-    }
+  }
     form button{
-        margin-left:40%;
+
     }
     form #reset{
-        margin-left: 20%;
+        margin-left: 7%;
     }
 
     a:hover{
@@ -199,6 +206,10 @@ form {
     
     .fa{
         margin-left:20px;
+    }
+    p{
+        font-size:1.0em;
+        font-family:Arial,Tahoma;
     }
 
     /* #box{

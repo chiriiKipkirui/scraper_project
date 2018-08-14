@@ -1,11 +1,12 @@
-var jumiaCanvas = $("#jumiaChart");
+$(document).ready(function(){
+  var jumiaCanvas = $("#jumiaChart");
 // jumiaCanvas.resize(function(){
 //   this.width=100;
 //   this.height=100;
 // })
 var avechiCanvas = $("#avechiChart");
 var killmallCanvas = $("#killmallChart");
-var jumiaPrice= document.getElementsByClassName('jumia-price');
+var jumiaPrice= $('.jumia-price');
 var jumiaTime= document.getElementsByClassName('jumia-time');
 var killmallPrice= document.getElementsByClassName('killmall-price');
 var killmallTime= document.getElementsByClassName('killmall-time');
@@ -25,6 +26,8 @@ for(i=0;i<avechiPrice.length;i++){
   avechi_price.push(parseInt(avechiPrice[i].innerHTML));
   avechi_time.push(avechiTime[i].innerHTML);
 }
+// console.log(jumia_price)
+// console.log(jumia_time)
 /**median and other probabilistic distribution properties*/
 if (jumia_price.length>0){
 var jumia_median = math.median(jumia_price);
@@ -62,10 +65,10 @@ $('.killmall-std').text(killmall_std);
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 18;
 var killmallData= {
-    labels: killmall_time.reverse(),
+    labels: killmall_time,
   datasets: [{
     label: "Prices Shift at Killmall",
-    data:killmall_price.reverse(),
+    data:killmall_price,
     lineTension: 0.3,
     fill: false,
     borderColor: 'green',
@@ -82,10 +85,10 @@ var killmallData= {
   };
 
 var avechiData = {
-     labels: avechi_time.reverse(),
+     labels: avechi_time,
   datasets: [{
     label: "Prices Shift at Avechi",
-    data:avechi_price.reverse(),
+    data:avechi_price,
     lineTension: 0.3,
     fill: false,
     borderColor: 'red',
@@ -117,10 +120,10 @@ var avechiData = {
 //   };
 
   var jumiaData = {
-  labels: jumia_time.reverse(),
+  labels: jumia_time,
   datasets: [{
     label: "Prices Shift at Jumia",
-    data: jumia_price.reverse(),
+    data: jumia_price,
     lineTension: 0.3,   
     fill: true,  
     fillColor:'white',  
@@ -178,3 +181,4 @@ var avechiChart = new Chart(avechiCanvas, {
 // }
 
 // beforePrintHandler()
+});
