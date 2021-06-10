@@ -2,7 +2,7 @@ beautifulsoup4==4.6.0
 bs4==0.0.1
 certifi==2018.4.16
 chardet==3.0.4
-Django==1.10
+Django==2.2.24
 django-easy-pdf==0.1.1
 django-multiforloop==0.2.1
 gunicorn==19.8.1
